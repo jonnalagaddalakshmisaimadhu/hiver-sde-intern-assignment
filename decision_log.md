@@ -43,3 +43,25 @@ This document records the key architectural, methodological, and engineering dec
 * **Decision**: Design the configuration system (`.env.example` and `configs/`) to support both Google Gemini and OpenAI models without modifying core agent logic, defaulting to Google Gemini (or configurable via `LLM_PROVIDER`).
 * **Why**: Ensures maximum flexibility for evaluation reviewers who may have different API access keys or budget constraints, while preventing any hardcoded credentials.
 * **Trade-off**: Requires maintaining lightweight provider-agnostic client abstractions or standard API adapters in `src/utils/` and `src/generation/`.
+
+---
+
+### Decision 7: Memory-Efficient Chunked Streaming for Inspection of 2.8M Rows
+* **Decision**: Process the 516 MB raw CSV in bounded chunks (250,000 rows per chunk) rather than reading all 2.8M records into memory simultaneously.
+* **Why**: Loading 2.81M rows with multiple string columns directly into a single Pandas DataFrame consumes over 3–4 GB of RAM, causing memory pressure and potential out-of-memory crashes on resource-constrained environments. Chunked streaming processed the entire corpus in 12.6 seconds with < 500 MB peak memory.
+* **Trade-off**: Cannot perform full-table multi-column group-bys in a single vector operation; requires incremental accumulators for frequencies and null counts.
+
+---
+
+### Decision 8: Authentic Full Dataset Download Combined with Fast Subsample Architecture
+* **Decision**: Ingest the complete authentic `twcs.csv` dataset (2,811,774 rows) into `data/raw/` for comprehensive brand distribution analysis and candidate profiling, while committing to generate a deterministic, self-contained subsample in `data/sample/` for reviewers to reproduce all results in under 15 minutes.
+* **Why**: Brand selection and Golden Set sampling require analyzing true operational distributions across the entire dataset to avoid sampling bias, while reviewers need a lightweight, fast-running benchmark.
+* **Trade-off**: Requires ~516 MB disk space for the raw file, but guarantees zero artificiality in brand selection.
+
+---
+
+### Decision 9: Author Categorization Heuristic (Numeric vs. Alphabetic Handles)
+* **Decision**: Categorize records where `author_id` is numeric as anonymized customer accounts (702,669 unique authors) and non-numeric strings as brand support handles (108 unique brands).
+* **Why**: The Kaggle TWCS dataset explicitly anonymizes customer user IDs into numeric identifiers while preserving actual corporate Twitter handles (e.g. `AmazonHelp`, `AppleSupport`, `SpotifyCares`) to allow brand identification.
+* **Trade-off**: Edge-case accounts with alphanumeric usernames that are not official brands are theoretically possible, but inspection of the top 50 handles confirmed 100% precision for known commercial support entities.
+

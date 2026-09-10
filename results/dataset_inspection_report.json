@@ -1,0 +1,189 @@
+{
+  "file_metadata": {
+    "file_path": "data\\raw\\twcs.csv",
+    "file_size_bytes": 516508641,
+    "total_rows": 2811774,
+    "total_columns": 7,
+    "columns": [
+      "tweet_id",
+      "author_id",
+      "inbound",
+      "created_at",
+      "text",
+      "response_tweet_id",
+      "in_response_to_tweet_id"
+    ],
+    "dtypes": {
+      "tweet_id": "int64",
+      "author_id": "object",
+      "inbound": "bool",
+      "created_at": "object",
+      "text": "object",
+      "response_tweet_id": "float64",
+      "in_response_to_tweet_id": "int64"
+    }
+  },
+  "data_quality": {
+    "null_counts": {
+      "tweet_id": 0,
+      "author_id": 0,
+      "inbound": 0,
+      "created_at": 0,
+      "text": 0,
+      "response_tweet_id": 1040629,
+      "in_response_to_tweet_id": 794335
+    },
+    "null_percentages": {
+      "tweet_id": 0.0,
+      "author_id": 0.0,
+      "inbound": 0.0,
+      "created_at": 0.0,
+      "text": 0.0,
+      "response_tweet_id": 37.01,
+      "in_response_to_tweet_id": 28.25
+    },
+    "empty_or_whitespace_text_count": 0
+  },
+  "tweet_types": {
+    "inbound_count": 1537843,
+    "inbound_percentage": 54.69,
+    "outbound_count": 1273931,
+    "outbound_percentage": 45.31,
+    "other_count": 0
+  },
+  "thread_linkage": {
+    "has_response_tweet_id_count": 1771145,
+    "has_response_tweet_id_pct": 62.99,
+    "has_in_response_to_id_count": 2017439,
+    "has_in_response_to_id_pct": 71.75,
+    "thread_initiating_tweets_count": 794335,
+    "thread_initiating_tweets_pct": 28.25
+  },
+  "authors": {
+    "total_unique_authors": 702777,
+    "customer_authors_count": 702669,
+    "brand_handles_count": 108,
+    "top_25_brands_by_tweet_volume": [
+      {
+        "brand": "AmazonHelp",
+        "tweet_count": 169840
+      },
+      {
+        "brand": "AppleSupport",
+        "tweet_count": 106860
+      },
+      {
+        "brand": "Uber_Support",
+        "tweet_count": 56270
+      },
+      {
+        "brand": "SpotifyCares",
+        "tweet_count": 43265
+      },
+      {
+        "brand": "Delta",
+        "tweet_count": 42253
+      },
+      {
+        "brand": "Tesco",
+        "tweet_count": 38573
+      },
+      {
+        "brand": "AmericanAir",
+        "tweet_count": 36764
+      },
+      {
+        "brand": "TMobileHelp",
+        "tweet_count": 34317
+      },
+      {
+        "brand": "comcastcares",
+        "tweet_count": 33031
+      },
+      {
+        "brand": "British_Airways",
+        "tweet_count": 29361
+      },
+      {
+        "brand": "SouthwestAir",
+        "tweet_count": 28977
+      },
+      {
+        "brand": "VirginTrains",
+        "tweet_count": 27817
+      },
+      {
+        "brand": "Ask_Spectrum",
+        "tweet_count": 25860
+      },
+      {
+        "brand": "XboxSupport",
+        "tweet_count": 24557
+      },
+      {
+        "brand": "sprintcare",
+        "tweet_count": 22381
+      },
+      {
+        "brand": "hulu_support",
+        "tweet_count": 21872
+      },
+      {
+        "brand": "sainsburys",
+        "tweet_count": 19466
+      },
+      {
+        "brand": "GWRHelp",
+        "tweet_count": 19364
+      },
+      {
+        "brand": "AskPlayStation",
+        "tweet_count": 19098
+      },
+      {
+        "brand": "ChipotleTweets",
+        "tweet_count": 18749
+      },
+      {
+        "brand": "VerizonSupport",
+        "tweet_count": 17966
+      },
+      {
+        "brand": "UPSHelp",
+        "tweet_count": 17817
+      },
+      {
+        "brand": "ATVIAssist",
+        "tweet_count": 17650
+      },
+      {
+        "brand": "O2",
+        "tweet_count": 16212
+      },
+      {
+        "brand": "Safaricom_Care",
+        "tweet_count": 16077
+      }
+    ]
+  },
+  "text_statistics": {
+    "char_length": {
+      "mean": 114.0,
+      "median": 115.0,
+      "p95": 216.0,
+      "min": 1,
+      "max": 476
+    },
+    "word_length": {
+      "mean": 19.5,
+      "median": 19.0,
+      "p95": 38.0,
+      "min": 1,
+      "max": 84
+    }
+  },
+  "timestamps": {
+    "min_created_at": "Fri Apr 01 17:37:48 +0000 2016",
+    "max_created_at": "Wed Sep 28 18:06:15 +0000 2016"
+  }
+}
