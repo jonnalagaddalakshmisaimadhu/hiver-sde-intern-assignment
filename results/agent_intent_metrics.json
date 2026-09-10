@@ -1,0 +1,151 @@
+{
+  "accuracy": 0.99,
+  "macro_precision": 0.9904,
+  "macro_recall": 0.99,
+  "macro_f1": 0.9899,
+  "weighted_f1": 0.9899,
+  "total_evaluated": 200,
+  "labels": [
+    "APPLE_ID_ACCOUNT_SECURITY",
+    "APP_STORE_BILLING_SUBSCRIPTIONS",
+    "AUDIO_CONNECTIVITY_BLUETOOTH",
+    "BATTERY_POWER_CHARGING",
+    "DEVICE_PERFORMANCE_CRASH",
+    "HARDWARE_PHYSICAL_DAMAGE",
+    "OTHER_OR_UNCLEAR",
+    "SOFTWARE_UPDATE_OS"
+  ],
+  "confusion_matrix": [
+    [
+      25,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      25,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      25,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      25,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      25,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      23
+    ]
+  ],
+  "per_intent_metrics": {
+    "APPLE_ID_ACCOUNT_SECURITY": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 25
+    },
+    "APP_STORE_BILLING_SUBSCRIPTIONS": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 25
+    },
+    "AUDIO_CONNECTIVITY_BLUETOOTH": {
+      "precision": 0.9615,
+      "recall": 1.0,
+      "f1_score": 0.9804,
+      "support": 25
+    },
+    "BATTERY_POWER_CHARGING": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 25
+    },
+    "DEVICE_PERFORMANCE_CRASH": {
+      "precision": 0.9615,
+      "recall": 1.0,
+      "f1_score": 0.9804,
+      "support": 25
+    },
+    "HARDWARE_PHYSICAL_DAMAGE": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 25
+    },
+    "OTHER_OR_UNCLEAR": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "support": 25
+    },
+    "SOFTWARE_UPDATE_OS": {
+      "precision": 1.0,
+      "recall": 0.92,
+      "f1_score": 0.9583,
+      "support": 25
+    }
+  },
+  "model_name": "AppleSupport AI Agent"
+}
