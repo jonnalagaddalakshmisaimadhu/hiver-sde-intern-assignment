@@ -1,0 +1,196 @@
+# ==============================================================================
+# @AppleSupport Intent Taxonomy
+# Empirically discovered and validated from reconstructed customer dialogues.
+# Total Intents: 8 (7 operational domain intents + 1 justified fallback)
+# ==============================================================================
+
+version: "1.0"
+brand: "AppleSupport"
+intents:
+  - id: "SOFTWARE_UPDATE_OS"
+    name: "Software Update & OS Issues"
+    description: "Inquiries regarding operating system updates (iOS, macOS, watchOS), update failures, bugs introduced by recent updates, or beta software."
+    inclusion_criteria:
+      - Mentions updating iOS/macOS version (e.g., iOS 11.1, iOS 11.2, High Sierra)
+      - Issues with update stuck on 'verifying update' or 'preparing update'
+      - Incompatibilities or glitches directly attributed to a software update
+    exclusion_criteria:
+      - Battery drain that occurs generally without mentioning an update
+      - App Store specific download failures (use APP_STORE_BILLING_SUBSCRIPTIONS)
+    typical_keywords:
+      - "update"
+      - "ios"
+      - "install"
+      - "macos"
+      - "software"
+      - "patch"
+      - "version"
+    examples:
+      - "Since updating to iOS 11.1.2 my phone has been freezing constantly."
+      - "My iPhone says 'Unable to Verify Update' when trying to install iOS 11."
+      - "Is macOS High Sierra compatible with MacBook Pro late 2013?"
+
+  - id: "BATTERY_POWER_CHARGING"
+    name: "Battery, Power & Charging"
+    description: "Issues relating to battery life, rapid battery depletion, phone shutting down unexpectedly, or failure to charge."
+    inclusion_criteria:
+      - Battery percentage dropping rapidly or jumping numbers
+      - Device shutting off at 20-30% battery
+      - Device not charging when plugged in or charger not recognized
+      - Overheating while charging or idle
+    exclusion_criteria:
+      - Device stuck in boot loop without charging context (use DEVICE_PERFORMANCE_CRASH)
+      - Physical lightning port damage (use HARDWARE_PHYSICAL_DAMAGE)
+    typical_keywords:
+      - "battery"
+      - "drain"
+      - "charging"
+      - "charger"
+      - "dies"
+      - "overheating"
+      - "percentage"
+    examples:
+      - "My battery drops from 40% to 1% in less than 10 minutes."
+      - "iPhone 7 won't charge when connected with original Apple cable."
+      - "Phone gets extremely hot to the touch while simply charging overnight."
+
+  - id: "APPLE_ID_ACCOUNT_SECURITY"
+    name: "Apple ID, iCloud & Account Security"
+    description: "Authentication, account lockouts, forgotten Apple ID passwords, two-factor verification codes, and iCloud storage or sync issues."
+    inclusion_criteria:
+      - Locked Apple ID or password reset difficulties
+      - Not receiving two-factor authentication (2FA) SMS or push codes
+      - iCloud storage full alerts or photos failing to sync
+      - Suspicious login alerts or unauthorized account activity
+    exclusion_criteria:
+      - App Store subscription billing disputes (use APP_STORE_BILLING_SUBSCRIPTIONS)
+    typical_keywords:
+      - "apple id"
+      - "password"
+      - "icloud"
+      - "locked"
+      - "verification code"
+      - "2fa"
+      - "account"
+    examples:
+      - "My Apple ID has been locked for security reasons and I can't reset my password."
+      - "Not receiving the two-factor authentication code on my trusted phone number."
+      - "Photos are not syncing to iCloud even though I pay for 200GB storage."
+
+  - id: "AUDIO_CONNECTIVITY_BLUETOOTH"
+    name: "Audio, Bluetooth & Wireless Connectivity"
+    description: "Sound output problems, microphone failures, AirPods/headphone pairing issues, Bluetooth disconnections, and Wi-Fi/cellular network drops."
+    inclusion_criteria:
+      - AirPods or Bluetooth headphones failing to pair or audio cutting out
+      - Front speaker crackling, distortion, or no sound during calls
+      - Wi-Fi switch greyed out or disconnecting repeatedly
+      - No Service or Searching for cellular carrier signal
+    exclusion_criteria:
+      - Complete hardware screen or chassis damage (use HARDWARE_PHYSICAL_DAMAGE)
+    typical_keywords:
+      - "bluetooth"
+      - "airpods"
+      - "speaker"
+      - "sound"
+      - "wifi"
+      - "wi-fi"
+      - "microphone"
+      - "crackling"
+      - "pairing"
+    examples:
+      - "My iPhone X front speaker crackles at full volume when playing music."
+      - "Left AirPod stopped connecting and has no sound at all."
+      - "Wi-Fi toggle keeps disconnecting every time the screen locks."
+
+  - id: "HARDWARE_PHYSICAL_DAMAGE"
+    name: "Hardware, Screen & Physical Damage"
+    description: "Physical device damage including cracked screens, liquid/water ingress, unresponsive physical buttons, camera lens damage, or warranty repairs."
+    inclusion_criteria:
+      - Smashed, shattered, or bleeding display glass
+      - Water or liquid contact causing malfunction
+      - Broken home button, volume button, or power button
+      - Inquiries regarding Apple Store Genius Bar appointment for physical repair
+    exclusion_criteria:
+      - Software-induced display freezing (use DEVICE_PERFORMANCE_CRASH)
+    typical_keywords:
+      - "screen"
+      - "cracked"
+      - "broken"
+      - "water damage"
+      - "repair"
+      - "genius bar"
+      - "shattered"
+      - "hardware"
+    examples:
+      - "Dropped my iPhone 8 and the back glass completely shattered. How much to fix?"
+      - "Phone fell in water and speaker sounds muffled now."
+      - "Home button is physically stuck and won't click."
+
+  - id: "APP_STORE_BILLING_SUBSCRIPTIONS"
+    name: "App Store, Purchases & Subscriptions"
+    description: "Inquiries regarding App Store charges, recurring subscription cancellations, refund requests, Apple Pay issues, or in-app purchase errors."
+    inclusion_criteria:
+      - Unrecognized charge from iTunes or App Store on credit card statement
+      - Requesting refund for accidental app purchase or subscription
+      - Apple Pay transaction failing or setup error
+      - In-app purchase not unlocking premium features
+    exclusion_criteria:
+      - General Apple ID password recovery (use APPLE_ID_ACCOUNT_SECURITY)
+    typical_keywords:
+      - "app store"
+      - "charge"
+      - "subscription"
+      - "refund"
+      - "itunes"
+      - "apple pay"
+      - "billing"
+      - "purchase"
+    examples:
+      - "Got charged $9.99 for an app subscription I cancelled last month. Need a refund."
+      - "Why won't Apple Pay accept my debit card when adding it to Wallet?"
+      - "I bought coins in a game but never received them in my account."
+
+  - id: "DEVICE_PERFORMANCE_CRASH"
+    name: "Device Freezing, Crashes & Boot Loops"
+    description: "System instability including devices stuck on the Apple logo (boot loop), black screen of death, apps crashing on launch, or unresponsive touch screen."
+    inclusion_criteria:
+      - Device stuck on white Apple logo and restarting continuously
+      - Touch screen completely unresponsive to touch gestures
+      - Apps crashing immediately back to the home screen
+      - Screen black but phone vibrates or rings
+    exclusion_criteria:
+      - Issues isolated solely to an OS upgrade in progress (use SOFTWARE_UPDATE_OS)
+      - Physical glass break causing unresponsiveness (use HARDWARE_PHYSICAL_DAMAGE)
+    typical_keywords:
+      - "crash"
+      - "frozen"
+      - "apple logo"
+      - "stuck"
+      - "unresponsive"
+      - "black screen"
+      - "boot loop"
+      - "restarting"
+    examples:
+      - "My iPhone 7 is stuck on the Apple logo and won't turn on past that."
+      - "The screen is completely frozen and won't respond to any touch."
+      - "Every time I open the Camera app it immediately crashes to home screen."
+
+  - id: "OTHER_OR_UNCLEAR"
+    name: "Other, Ambiguous or General Feedback"
+    description: "Inquiries that lack sufficient diagnostic detail, general brand commentary, complaints without specific issue descriptions, or unintelligible messages."
+    inclusion_criteria:
+      - Messages that only contain emotional complaints without technical details (e.g. 'Apple your products suck')
+      - Ambiguous queries where the issue cannot be reliably determined
+      - Feature requests or general inquiries unrelated to technical support
+    exclusion_criteria:
+      - Any message clearly specifying a symptom covered by the 7 primary intents
+    typical_keywords:
+      - "apple"
+      - "help"
+      - "service"
+      - "worst"
+      - "question"
+    examples:
+      - "Can someone from Apple please help me? Urgent!"
+      - "Why is your customer service so slow today?"
+      - "When is the new iPhone coming out in stores?"

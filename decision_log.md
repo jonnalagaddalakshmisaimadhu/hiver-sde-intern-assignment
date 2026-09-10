@@ -97,5 +97,13 @@ This document records the key architectural, methodological, and engineering dec
 * **Why**: Prevents spam, retweets, and duplicate automated bot mentions from distorting embedding clusters and leaking identical phrases across train and evaluation sets.
 * **Trade-off**: Slightly reduces total corpus size (from 106,623 to 103,842 conversations), but dramatically improves training and evaluation cleanliness.
 
+---
+
+### Decision 14: Discovery and Standardization of 8 Empirical Operational Intents
+* **Decision**: Define a focused 8-intent taxonomy (`SOFTWARE_UPDATE_OS`, `BATTERY_POWER_CHARGING`, `APPLE_ID_ACCOUNT_SECURITY`, `AUDIO_CONNECTIVITY_BLUETOOTH`, `HARDWARE_PHYSICAL_DAMAGE`, `APP_STORE_BILLING_SUBSCRIPTIONS`, `DEVICE_PERFORMANCE_CRASH`, `OTHER_OR_UNCLEAR`) grounded directly in `@AppleSupport` data, rather than adopting generic banking taxonomies or fine-grained 50+ class hierarchies.
+* **Why**: Each intent directly corresponds to distinct diagnostic trees, Knowledge Base documentation, and escalation paths (e.g., physical damage routes to Genius Bar; account takeover routes to human security). 8 classes provide high semantic separability, minimize annotator ambiguity, and ensure robust per-class sample representation in the Golden Evaluation Set.
+* **Trade-off**: Sub-intents (e.g. differentiating between iPad Wi-Fi vs. iPhone cellular) are aggregated under broader category `AUDIO_CONNECTIVITY_BLUETOOTH`, but the retriever retains full granular retrieval over historical dialogues.
+
+
 
 

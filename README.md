@@ -45,7 +45,24 @@ Following empirical profiling across the top candidate brands in the Twitter Cus
 
 ---
 
-## 5. Preliminary System Architecture
+## 5. Intent Taxonomy (@AppleSupport)
+Derived empirically from reconstructed `@AppleSupport` dialogues, the system classifies customer messages into **8 mutually-exclusive operational intents** (7 domain-specific + 1 justified fallback). Full criteria and examples are in [`configs/intent_taxonomy.md`](file:///c:/Users/jlaks/Downloads/AI-Projects/hiver-sde-intern-assignment/configs/intent_taxonomy.md) and [`configs/intents.yaml`](file:///c:/Users/jlaks/Downloads/AI-Projects/hiver-sde-intern-assignment/configs/intents.yaml).
+
+| Intent ID | Name | Core Diagnostic Scope | Default System Route |
+| :--- | :--- | :--- | :--- |
+| `SOFTWARE_UPDATE_OS` | Software Update & OS Issues | iOS/macOS update failures, verification hangs, update bugs | AUTO_HANDLE (KB steps) |
+| `BATTERY_POWER_CHARGING` | Battery, Power & Charging | Fast drain, shutdown at 20%, charging cable issues, overheating | AUTO_HANDLE (Diagnostics) |
+| `APPLE_ID_ACCOUNT_SECURITY` | Apple ID & Account Security | Locked accounts, 2FA code issues, password resets, iCloud sync | AUTO_HANDLE / ESCALATE (Security) |
+| `AUDIO_CONNECTIVITY_BLUETOOTH` | Audio & Wireless Connectivity | AirPods pairing, speaker crackle, Wi-Fi/cellular signal drops | AUTO_HANDLE (Reset steps) |
+| `HARDWARE_PHYSICAL_DAMAGE` | Hardware & Physical Damage | Cracked display, water contact, broken buttons, repair booking | **ESCALATE TO HUMAN / GENIUS BAR** |
+| `APP_STORE_BILLING_SUBSCRIPTIONS` | App Store & Subscriptions | Unauthorized charges, subscription refunds, Apple Pay errors | AUTO_HANDLE / ESCALATE (Billing) |
+| `DEVICE_PERFORMANCE_CRASH` | Device Crashes & Boot Loops | Stuck on Apple logo, frozen UI, black screen, app crashes | AUTO_HANDLE (Force restart) |
+| `OTHER_OR_UNCLEAR` | Other, Ambiguous or Feedback | Vague complaints, lack of technical symptoms, general praise/critique | Prompt for details / ESCALATE |
+
+---
+
+## 6. System Architecture
+
 
 The AI agent follows a modular, evidence-first pipeline where every downstream decision is grounded in retrieved brand history:
 
