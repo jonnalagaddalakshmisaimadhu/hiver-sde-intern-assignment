@@ -74,19 +74,14 @@ class AppleSupportAgent:
 
 
 if __name__ == "__main__":
-    import json
-    agent = AppleSupportAgent()
-    sample_queries = [
-        "My iPhone X screen completely shattered when I dropped it on concrete. How do I get it fixed?",
-        "Why is my battery dropping from 50% to 10% in half an hour since updating to iOS 11?",
-        "Someone hacked my Apple ID and changed my recovery email! Please help!",
-    ]
+    import sys
+    from test_agent_live import format_agent_response, run_interactive
 
-    for q in sample_queries:
-        print("\n" + "=" * 60)
-        print(f"Customer Inquiry: \"{q}\"")
-        resp = agent.process_inquiry(q)
-        print(f"  Predicted Intent: {resp.intent} (Confidence: {resp.intent_confidence:.2f})")
-        print(f"  Decision: {resp.decision} - {resp.reason}")
-        print(f"  Drafted Reply: \"{resp.reply}\"")
-        print(f"  Evidence Retrieved: {len(resp.evidence)} cases (Top similarity: {resp.evidence[0].similarity if resp.evidence else 0.0})")
+    agent = AppleSupportAgent()
+    if len(sys.argv) > 1:
+        query = " ".join(sys.argv[1:])
+        t0 = time.time()
+        resp = agent.process_inquiry(query)
+        format_agent_response(query, resp, (time.time() - t0) * 1000)
+    else:
+        run_interactive(agent)

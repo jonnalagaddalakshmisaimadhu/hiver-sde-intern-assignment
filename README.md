@@ -131,42 +131,39 @@ To evaluate the agent objectively, performance is measured against two standard 
 
 ---
 
-## 7. Evaluation Methodology & Metrics
+---
 
-### A. Intent Classification Metrics
-Evaluated against hand-labeled ground truth:
-* Overall Accuracy
-* Macro-averaged F1 (primary metric to penalize poor performance on minority intents)
-* Per-intent Precision, Recall, and F1-score
-* Full Confusion Matrix
+## 7. Comparative Experimental Results
 
-### B. Escalation Quality Metrics
-Evaluated against hand-labeled escalation ground truth:
-* Escalation Precision, Recall, and F1-score
-* **False Auto-Handle Rate (FAHR)**: The critical safety metric measuring how often the system erroneously auto-handles messages that required human intervention.
+All three systems were evaluated on the exact same **200-example Golden Evaluation Set** (strictly isolated from training and retrieval indices, uniformly balanced across 8 operational intents):
 
-### C. Reply Quality & LLM-as-a-Judge Rubric
-Evaluated using structured scoring (1–5 scale) on:
-1. **Relevance**: Does the reply directly address the customer's specific query?
-2. **Groundedness**: Is every statement in the reply supported by retrieved historical evidence?
-3. **Helpfulness**: Does the reply provide an actionable next step?
-4. **Factual Integrity / Non-Hallucination**: Does the reply refrain from inventing policies, accounts, or fake promises?
-5. **Brand Consistency**: Does the style match historical support resolutions?
-6. **Tone**: Is the tone polite, empathetic, and professional?
-
-### D. Human vs. LLM Judge Agreement
-A representative subset of generated replies is evaluated by a human annotator using the identical rubric to measure:
-* Inter-annotator percent agreement
-* Pearson / Spearman correlation for continuous/ordinal ratings
-* Cohen's Kappa ($\kappa$) for categorical alignment
-* Qualitative analysis of systematic judge biases or disagreements
+| Metric | Baseline 1 (Majority Class) | Baseline 2 (TF-IDF + LogReg) | AI Support Agent (@AppleSupport) | Delta (Agent vs. Best Baseline) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Intent Accuracy** | 12.50% | 70.50% | **99.00%** (198/200) | **+28.50%** |
+| **Macro-Precision** | 1.56% | 68.42% | **99.01%** | **+30.59%** |
+| **Macro-Recall** | 12.50% | 70.50% | **99.00%** | **+28.50%** |
+| **Macro-F1 Score** | 0.0278 | 0.6829 | **0.9899** | **+0.3070** |
+| **Escalation Recall** | N/A | N/A | **100.00%** (25/25) | Optimal Safety |
+| **False Auto-Handle Rate (FAHR)**| N/A | N/A | **0.00%** (0 dangerous leaks) | Zero Breach |
+| **Escalation Precision** | N/A | N/A | **18.09%** (Risk-Averse) | Conservative Guardrail |
+| **Factual Integrity** | N/A | N/A | **5.00 / 5.00** | Zero Hallucination |
+| **Retrieval Groundedness**| N/A | N/A | **2.015 / 5.00** | Defensive Routing |
 
 ---
 
-## 8. Golden Evaluation Set Methodology
-* **Size**: 150–250 hand-labeled examples.
-* **Sampling Strategy**: Conversation-level stratified sampling across intents, conversation length, message complexity, ambiguity, and customer sentiment to avoid unrealistically simple evaluation.
-* **Contamination Prevention**: Strict exclusion of Golden Set threads from vector indexing, embedding corpora, and training sets.
+## 8. LLM-as-a-Judge & Human Calibration
+
+Evaluated across 6 dimensions defined in `configs/judge_rubric.yaml` on a 1–5 scale, with 40 stratified human evaluations:
+
+| Dimension | Judge Mean | Human Mean | Exact Match | Adjacent Match (+/-1) | Cohen's Kappa ($\kappa_w$) | Judge Bias |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Relevance** | 4.00 / 5.00 | 3.00 / 5.00 | 0.0% | **100.0%** | 0.000 | +1.000 (Lenient) |
+| **Groundedness** | 2.00 / 5.00 | 2.00 / 5.00 | **100.0%** | **100.0%** | 1.000 | 0.000 (Calibrated) |
+| **Helpfulness** | 4.00 / 5.00 | 3.00 / 5.00 | 0.0% | **100.0%** | 0.000 | +1.000 (Lenient) |
+| **Factual Integrity** | 5.00 / 5.00 | 5.00 / 5.00 | **100.0%** | **100.0%** | 1.000 | 0.000 (Flawless) |
+| **Brand Consistency** | 4.05 / 5.00 | 3.98 / 5.00 | **95.0%** | **97.5%** | 0.000 | +0.075 |
+| **Tone** | 4.05 / 5.00 | 4.00 / 5.00 | **95.0%** | **100.0%** | 0.000 | +0.050 |
+| **Macro Average** | **3.85 / 5.00** | **3.50 / 5.00** | **65.0%** | **99.6%** | **0.231** | **+0.354** |
 
 ---
 
@@ -177,12 +174,12 @@ hiver-sde-intern-assignment/
 ├── requirements.txt         # Pinned Python package dependencies
 ├── .env.example             # Environment variable template (no secrets committed)
 ├── .gitignore               # Excludes virtual environments, secrets, large data
-├── decision_log.md          # 10-15 non-obvious engineering decisions (Decision/Why/Trade-off)
+├── decision_log.md          # 22 non-obvious engineering decisions (Decision/Why/Trade-off)
 │
 ├── data/
 │   ├── raw/                 # Raw dataset (twcs.csv) - not tracked in git
-│   ├── processed/           # Reconstructed conversations and cleaned splits
-│   └── sample/              # Deterministic subsample for fast (<15 min) reproduction
+│   ├── processed/           # Reconstructed conversations (103,842 dialogues)
+│   └── sample/              # Deterministic subsample (5,000 dialogues) for fast reproduction
 │
 ├── src/
 │   ├── data/                # Data inspection, cleaning, conversation reconstruction
@@ -194,74 +191,87 @@ hiver-sde-intern-assignment/
 │   └── utils/               # Config loaders, seeding, logging, LLM client wrappers
 │
 ├── baselines/               # Baseline 1 (Majority-class) and Baseline 2 (TF-IDF + LogReg)
-├── evaluation/              # Metrics calculator, LLM judge, and agreement validator
-├── golden_set/              # 150-250 hand-labeled evaluation examples and labeling guide
-├── configs/                 # YAML / JSON configs for models, taxonomies, and rules
-├── tests/                   # Unit and integration tests (pytest)
-├── notebooks/               # Exploratory data analysis and inspection notebooks
+├── evaluation/              # Metrics calculator, LLM judge, agreement analyzer, failure audit
+├── golden_set/              # 200 hand-labeled evaluation examples and labeling guide
+├── configs/                 # YAML configs for intents, judge rubric, and operational rules
+├── tests/                   # 18 unit and integration tests (pytest)
 ├── results/                 # Machine-readable output JSONs, confusion matrices, prediction CSVs
-└── reports/                 # Final technical report and failure analysis summaries
+└── reports/                 # Comprehensive final report and failure analysis documents
 ```
 
 ---
 
-## 10. Environment Setup & Reproduction
+## 10. Complete Reproduction Workflow (< 15 Minutes)
 
 ### Prerequisites
 * Python 3.10+ (tested on Python 3.11.9)
 * Git
 
-### Step-by-Step Installation
-1. **Clone the repository**:
-   ```bash
-   git clone <repo-url>
-   cd hiver-sde-intern-assignment
-   ```
+### Execution Steps
+```bash
+# 1. Clone repository
+git clone <repo-url>
+cd hiver-sde-intern-assignment
 
-2. **Create and activate a virtual environment**:
-   * Windows (PowerShell):
-     ```powershell
-     python -m venv .venv
-     .\.venv\Scripts\Activate.ps1
-     ```
-   * Linux / macOS:
-     ```bash
-     python3 -m venv .venv
-     source .venv/bin/activate
-     ```
+# 2. Set up virtual environment
+python -m venv .venv
+# On Windows PowerShell:
+.\.venv\Scripts\Activate.ps1
+# On Linux/macOS:
+# source .venv/bin/activate
 
-3. **Install dependencies**:
-   ```bash
-   pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
+# 3. Install dependencies
+pip install -r requirements.txt
 
-4. **Configure Environment Variables**:
-   Copy `.env.example` to `.env` and provide your API keys:
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` to configure your API key (`GEMINI_API_KEY` or `OPENAI_API_KEY`).
+# 4. Configure environment
+cp .env.example .env
+# Edit .env with your GROQ_API_KEY or GEMINI_API_KEY
 
-5. **Run Automated Tests**:
-   ```bash
-   pytest tests/
-   ```
+# 5. Run full test suite (18 tests in ~12 seconds)
+pytest
+
+# 6. Evaluate Baseline 1 (Majority Class)
+python baselines/majority_class.py
+
+# 7. Evaluate Baseline 2 (TF-IDF + Logistic Regression)
+python baselines/tfidf_logistic_regression.py
+
+# 8. Evaluate Proposed Agent Pipeline on Golden Set
+python evaluation/evaluator.py
+
+# 9. Run LLM-as-a-Judge Evaluation
+python evaluation/llm_judge.py
+
+# 10. Run Human vs. Judge Agreement Validation
+python evaluation/judge_agreement.py
+
+# 11. Run Quantitative & Qualitative Failure Analysis
+python evaluation/failure_analyzer.py
+```
 
 ---
 
 ## 11. What is Misleading About My Headline Number?
-> *Mandatory evaluation section. This section will be populated with empirical findings during Phase 11 & 12.*
 
-Every headline metric hides trade-offs:
-* **Accuracy vs. Class Imbalance**: High headline accuracy can easily be achieved by predicting majority intents while failing catastrophic edge cases.
-* **Retrieval Similarity vs. True Grounding**: High embedding similarity does not guarantee historical responses apply to current brand policy.
-* **Low Escalation Rate vs. False Auto-Handle Risk**: A model claiming a 90% auto-handle rate may be dangerously suppressing critical customer account issues.
+* **"99.0% Intent Accuracy" is Misleading**: Measured on a uniformly balanced test set (25 examples per intent). In real-world traffic, distributions are skewed toward OS update and device freeze inquiries (>45%), where multi-symptom complaints are frequent and messy.
+* **"100% Escalation Recall and 0% FAHR" is Misleading**: Achieved zero missed escalations only by escalating 69% of all inbound inquiries (138 out of 200). Escalation Precision was only **18.09%**. In an enterprise call center, this would swamp human agent tiers and destroy the economic value of automated customer support.
+* **"5.00/5.00 Factual Integrity" is Misleading**: Zero hallucinations were achieved by adopting a defensive diagnostic posture (asking intake questions and inviting DMs) rather than attempting autonomous problem resolution.
+* **"Baseline 2 had 70.5% Accuracy" is Misleading**: Aggregate accuracy masked that Baseline 2 had **0.0% Recall on physical damage**, misclassifying every single cracked screen inquiry into generic categories.
 
 ---
 
 ## 12. Limitations & One-More-Week Plan
-> *Detailed analysis of edge cases, multi-turn limitations, and prioritized engineering improvements to follow evaluation.*
+
+### Current Limitations
+1. **Single-Turn Request-Reply**: The agent does not currently maintain persistent multi-turn conversational session state across sequential tweets.
+2. **Defensive Canned Redirection**: Relying on historical Twitter support data inherits the brand's canned DM deflection habit rather than providing self-service resolutions.
+3. **Conservative Escalation Threshold**: The static retrieval threshold (0.38) triggers excessive human escalation on queries with novel colloquial phrasing.
+
+### What I Would Do With One More Week
+1. **Authoritative Knowledge Base Ingestion**: Supplement historical Twitter logs with indexed Apple Support HT articles to offer true step-by-step inline diagnostic fixes.
+2. **Multi-Label Intent Modeling**: Model customer complaints as compound graphs (Primary Trigger vs. Secondary Symptom).
+3. **Dynamic Threshold Optimization**: Tune escalation thresholds using Pareto-optimal validation ROC curves to boost Escalation Precision from 18% to > 70% while maintaining > 95% Recall.
+4. **Dialogue State Tracker**: Implement conversation memory across multi-turn customer dialogues using Redis or session stores.
 
 ---
 
@@ -269,3 +279,4 @@ Every headline metric hides trade-offs:
 * **Twitter Customer Support Dataset**: [thoughtvector/customer-support-on-twitter](https://www.kaggle.com/datasets/thoughtvector/customer-support-on-twitter)
 * **Sentence Embeddings**: Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks (Reimers & Gurevych, 2019).
 * **Machine Learning**: `scikit-learn` (Pedregosa et al., 2011).
+

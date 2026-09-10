@@ -1,0 +1,59 @@
+# ==============================================================================
+# LLM-as-a-Judge Evaluation Rubric for @AppleSupport Reply Quality
+# Six structured dimensions evaluated on a 1 to 5 Likert scale.
+# ==============================================================================
+
+dimensions:
+  relevance:
+    description: "Does the drafted reply directly address the customer's specific technical problem or inquiry?"
+    scale:
+      1: "Completely off-topic or responds to an unrelated product or issue."
+      2: "Touches vaguely on Apple products but fails to address the customer's stated symptom."
+      3: "Addresses the broad issue area (e.g., audio) but misses the specific symptom (e.g., crackling at full volume)."
+      4: "Directly addresses the customer's issue with minor extraneous or generic phrasing."
+      5: "Pinpoint relevance; addresses every stated symptom and device detail precisely."
+
+  groundedness:
+    description: "Is the resolution and advice strictly supported by the retrieved historical support evidence?"
+    scale:
+      1: "Entirely unsupported; gives advice contradictory to Apple Support policy or historical resolutions."
+      2: "Mostly unsupported; extrapolates beyond retrieved evidence with unverified technical assertions."
+      3: "Partially grounded; some recommendations match retrieved evidence, but includes generic ungrounded filler."
+      4: "Well-grounded; all primary recommendations reflect historical support patterns."
+      5: "Perfect grounding; directly reflects verified Apple historical support resolutions."
+
+  helpfulness:
+    description: "Does the reply provide a clear, actionable, diagnostic next step for the customer?"
+    scale:
+      1: "Completely unhelpful; dead end with no actionable advice or routing."
+      2: "Offers vague encouragement without technical steps or diagnostic questions."
+      3: "Provides a generic troubleshooting step (e.g., 'restart device') that may or may not help."
+      4: "Provides a logical diagnostic question (asking for iOS version / model) or specific setting path."
+      5: "Highly actionable; offers clear, structured steps or immediate link to official Genius Bar/support channel."
+
+  factual_integrity:
+    description: "Does the reply refrain from hallucinating unsupported policies, warranties, or fake actions?"
+    scale:
+      1: "Severe hallucination; promises free replacement, fake refunds, or claims internal backend actions were taken."
+      2: "Invented minor policies or non-existent settings menus."
+      3: "Borderline claims; assumes device status or warranty coverage without verification."
+      4: "Factual; refrains from unauthorized promises or policy fabrication."
+      5: "Flawless integrity; strictly factual, zero hallucination of policies, features, or commitments."
+
+  brand_consistency:
+    description: "Does the reply embody authentic Apple Support social media tone and persona?"
+    scale:
+      1: "Completely out of character; sounds like an automated robot or hostile competitor."
+      2: "Stiff and unnatural; lacks standard Apple customer service conventions."
+      3: "Adequate; generic customer support persona."
+      4: "Strong brand consistency; sounds like a genuine Apple Support representative."
+      5: "Flawless Apple Support voice; empathetic, concise, professional, and encouraging."
+
+  tone:
+    description: "Is the tone polite, professional, empathetic, and respectful?"
+    scale:
+      1: "Rude, dismissive, sarcastic, or confrontational."
+      2: "Cold, robotic, or impatient."
+      3: "Neutral and businesslike."
+      4: "Polite, empathetic, and courteous."
+      5: "Warm, highly professional, perfectly tuned to customer frustration."

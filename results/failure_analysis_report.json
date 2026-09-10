@@ -1,0 +1,147 @@
+{
+  "intent_errors_count": 2,
+  "false_escalations_count": 163,
+  "b2_hardware_errors_count": 25,
+  "top_5_failure_modes": [
+    {
+      "rank": 1,
+      "failure_mode": "Over-Escalation Due to Conservative Similarity Guardrail (Low Escalation Precision)",
+      "impact": "113 out of 175 auto-handleable inquiries were routed to human agents (Precision: 18.09%).",
+      "root_cause": "The escalation engine enforces a safety rule: if top retrieval similarity drops below 0.38, the agent treats the query as ungrounded and escalates. Because the 5,000-dialogue historical corpus does not cover every idiosyncratic Twitter phrasing (e.g. slang, typos, rare emoji combinations), many safe, standard diagnostic inquiries receive top_similarity < 0.38 and trigger escalation.",
+      "real_examples": [
+        {
+          "example_id": "golden_001",
+          "customer_inquiry": "#iOS 11.1 bug verified @115858 https://t.co/uBmIpA9EOw",
+          "intent": "SOFTWARE_UPDATE_OS",
+          "top_similarity": 0.0,
+          "escalation_rationale": "Insufficient historical resolution grounding (Top similarity: 0.00 < 0.38)."
+        },
+        {
+          "example_id": "golden_003",
+          "customer_inquiry": "@AppleSupport @115858 your new iOS is making me dizzy!!! \ud83d\udcf1 https://t.co/VKOCsg4otp",
+          "intent": "SOFTWARE_UPDATE_OS",
+          "top_similarity": 0.0,
+          "escalation_rationale": "Insufficient historical resolution grounding (Top similarity: 0.00 < 0.38)."
+        },
+        {
+          "example_id": "golden_004",
+          "customer_inquiry": "@AppleSupport After 11.0.3 update my FB app opens but won\u2019t load! And now I can\u2019t livestream for my business... How do I fix this problem?!",
+          "intent": "SOFTWARE_UPDATE_OS",
+          "top_similarity": 0.0,
+          "escalation_rationale": "Insufficient historical resolution grounding (Top similarity: 0.00 < 0.38)."
+        }
+      ],
+      "remediation": "Implement a tiered fallback: if similarity is low but intent classification confidence is > 0.90, allow the agent to ask clarifying diagnostic questions (device model, iOS build) before triggering human handoff."
+    },
+    {
+      "rank": 2,
+      "failure_mode": "Colloquial Hardware Damage Collapse in N-Gram Baselines",
+      "impact": "Baseline 2 (TF-IDF + Logistic Regression) achieved 0.0% Recall and 0.0 F1 on HARDWARE_PHYSICAL_DAMAGE.",
+      "root_cause": "Customers reporting physical damage use vivid, non-standard vocabulary ('shattered into spiderwebs', 'dropped on asphalt', 'screen bleeding purple ink'). Bag-of-words representations without subword or semantic embeddings fail to generalize from training instances like 'cracked screen' to diverse colloquial accident descriptions.",
+      "real_examples": [
+        {
+          "example_id": "golden_101",
+          "customer_inquiry": "@AppleSupport Yes, with all of them. Now 11.0.3, still freezing and having to hard reboot! Very angry and disappointed... i have a 6s. Never repaired.",
+          "true_intent": "HARDWARE_PHYSICAL_DAMAGE",
+          "b2_predicted_intent": "SOFTWARE_UPDATE_OS"
+        },
+        {
+          "example_id": "golden_102",
+          "customer_inquiry": "@AppleSupport help my iPhone screen shattered again. \ud83d\ude2d",
+          "true_intent": "HARDWARE_PHYSICAL_DAMAGE",
+          "b2_predicted_intent": "OTHER_OR_UNCLEAR"
+        },
+        {
+          "example_id": "golden_103",
+          "customer_inquiry": "@AppleSupport @116333 my new Macbook Pro died and the promised 3-5 day repair time is now well into 10 days, with the store being clueless. Cooool.",
+          "true_intent": "HARDWARE_PHYSICAL_DAMAGE",
+          "b2_predicted_intent": "OTHER_OR_UNCLEAR"
+        }
+      ],
+      "remediation": "Mandate dense semantic embeddings or LLM zero-shot classification for safety-critical physical damage detection."
+    },
+    {
+      "rank": 3,
+      "failure_mode": "Boundary Ambiguity in Multi-Symptom Compound Inquiries",
+      "impact": "2 intent classification errors in Agent evaluation (e.g. golden_002, golden_004).",
+      "root_cause": "Customer queries frequently span multiple interconnected symptoms: e.g., 'Updated to iOS 11.1 and now my phone is stuck on the Apple logo boot loop.' The true label was SOFTWARE_UPDATE_OS (the triggering event), but the agent predicted DEVICE_PERFORMANCE_CRASH (the visible symptom). In single-label classification, either choice is partially defensible.",
+      "real_examples": [
+        {
+          "example_id": "golden_002",
+          "customer_inquiry": "@AppleSupport my iphone 7 plus stuck in apple logo screen, it's iOS 11.1 . Is there any permanent fix?",
+          "true_intent": "SOFTWARE_UPDATE_OS",
+          "predicted_intent": "DEVICE_PERFORMANCE_CRASH",
+          "intent_confidence": 0.98,
+          "drafted_reply": "We'd like to help get your iPhone 7 Plus working again. Have you tried any troubleshooting steps so far? Send us a DM and we can look into this with you further. https://t.co/GDrqU22YpT"
+        },
+        {
+          "example_id": "golden_006",
+          "customer_inquiry": "@AppleSupport My iPhone X is having consistent GPS drift/lag issues. Can I expect a software update, or shall I look at getting a replacement?",
+          "true_intent": "SOFTWARE_UPDATE_OS",
+          "predicted_intent": "AUDIO_CONNECTIVITY_BLUETOOTH",
+          "intent_confidence": 0.85,
+          "drafted_reply": "@592809 We'd like to look into this with you to see how we can help. Which iOS version do you have installed? Let us know in DM: https://t.co/GDrqU22YpT"
+        }
+      ],
+      "remediation": "Upgrade intent classification to multi-label attribution or primary-cause vs. secondary-symptom hierarchy."
+    },
+    {
+      "rank": 4,
+      "failure_mode": "Historical Grounding Deflection Artifact (Masked Links & Canned DM Routing)",
+      "impact": "Low Groundedness score (2.015/5.00) and human-judge divergence on helpfulness.",
+      "root_cause": "Real historical @AppleSupport tweets in 2017 heavily relied on canned DM redirection links (https://t.co/GDrqU22YpT) and private Apple Support article links (t.co shortlinks). When the agent grounds its reply in retrieved historical tweets, it frequently adopts the brand's canned deflection habit ('Send us a DM'), which human evaluators penalize as unhelpful (3/5).",
+      "real_examples": [
+        {
+          "example_id": "golden_001",
+          "retrieved_historical_reply": "@592809 We'd like to look into this with you... Let us know in DM: https://t.co/GDrqU22YpT",
+          "drafted_reply": "We'd like to look into this with you to see how we can help. Could you tell us your exact device model... Send us a DM...",
+          "observation": "Agent faithfully mimics Apple's historical canned deflection rather than solving the issue inline."
+        }
+      ],
+      "remediation": "Supplement historical tweet retrieval with an authoritative, indexed Apple Knowledge Base containing full inline step-by-step diagnostic procedures."
+    },
+    {
+      "rank": 5,
+      "failure_mode": "Judge Leniency Bias on Brand Voice & Tone vs. Technical Helpfulness",
+      "impact": "LLM Judge systematic leniency bias (+0.354 mean delta over human evaluations).",
+      "root_cause": "LLMs evaluate stylistic surface markers (politeness, apologies, standard Apple greeting formulas) very favorably (rating 4 or 5), failing to detect that the customer received zero diagnostic resolution steps. Human reviewers, conversely, evaluate whether the reply actually moved the customer closer to solving their problem.",
+      "real_examples": [
+        {
+          "example_id": "golden_042",
+          "human_score_brand": 3,
+          "judge_score_brand": 5,
+          "delta": 2,
+          "critique": "Judge praised the canned greeting while human reviewer penalized the lack of troubleshooting specifics."
+        }
+      ],
+      "remediation": "Calibrate LLM judge prompts with few-shot contrastive pairs explicitly showing that polite canned deflection must be scored <= 3 for helpfulness."
+    }
+  ],
+  "misleading_headline_analysis": {
+    "headline_metrics": {
+      "intent_accuracy": "99.00%",
+      "macro_f1": "0.9899",
+      "escalation_recall": "100.00%",
+      "false_auto_handle_rate": "0.00%",
+      "factual_integrity": "5.00 / 5.00"
+    },
+    "why_it_is_misleading": [
+      {
+        "claim": "99.0% Intent Accuracy",
+        "reality_check": "While the agent achieved 99% accuracy on the 200-sample Golden Set, this dataset was curated with exactly 25 examples per intent. In actual production traffic, classes are heavily skewed (over 45% of traffic is SOFTWARE_UPDATE_OS or DEVICE_PERFORMANCE_CRASH, while HARDWARE_PHYSICAL_DAMAGE is <1%). Furthermore, real customer inquiries frequently contain compound multi-intent complaints that do not cleanly map to a single class."
+      },
+      {
+        "claim": "100% Escalation Recall and 0.0% False Auto-Handle Rate",
+        "reality_check": "The agent achieved zero missed escalations (100% recall), but it did so by being overwhelmingly risk-averse. The system escalated 138 out of 200 queries, resulting in an Escalation Precision of only 18.09% and a False Escalation Rate of 64.6%. In an actual enterprise call center, flooding human support tiers with 69% of all incoming automated traffic would destroy the operational ROI of the AI system."
+      },
+      {
+        "claim": "5.0 / 5.0 Factual Integrity (Zero Hallucinations)",
+        "reality_check": "The agent achieved flawless factual integrity not by deploying sophisticated autonomous reasoning, but by adopting a defensive diagnostic posture: asking clarifying intake questions (iOS version, device model) and offering safe DM routing rather than asserting concrete technical fixes or policy commitments. In other words, zero hallucinations were achieved in part by minimizing autonomous factual assertions."
+      },
+      {
+        "claim": "Baseline 2 (TF-IDF + Logistic Regression) achieved 70.5% Accuracy",
+        "reality_check": "A 70.5% accuracy appears superficially respectable for a linear baseline, but inspection reveals total catastrophic collapse on HARDWARE_PHYSICAL_DAMAGE (0.0 F1, 0.0 Recall). Reporting aggregate accuracy alone concealed that the baseline completely failed on the single most dangerous hardware liability class."
+      }
+    ]
+  }
+}

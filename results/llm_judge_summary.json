@@ -1,0 +1,52 @@
+{
+  "total_evaluated": 200,
+  "dimension_averages": {
+    "relevance": 3.995,
+    "groundedness": 2.015,
+    "helpfulness": 3.995,
+    "factual_integrity": 5.0,
+    "brand_consistency": 4.055,
+    "tone": 4.055
+  },
+  "dimension_standard_deviations": {
+    "relevance": 0.071,
+    "groundedness": 0.212,
+    "helpfulness": 0.071,
+    "factual_integrity": 0.0,
+    "brand_consistency": 0.229,
+    "tone": 0.229
+  },
+  "dimension_percentiles": {
+    "relevance": {
+      "median": 4.0,
+      "p25": 4.0,
+      "p75": 4.0
+    },
+    "groundedness": {
+      "median": 2.0,
+      "p25": 2.0,
+      "p75": 2.0
+    },
+    "helpfulness": {
+      "median": 4.0,
+      "p25": 4.0,
+      "p75": 4.0
+    },
+    "factual_integrity": {
+      "median": 5.0,
+      "p25": 5.0,
+      "p75": 5.0
+    },
+    "brand_consistency": {
+      "median": 4.0,
+      "p25": 4.0,
+      "p75": 4.0
+    },
+    "tone": {
+      "median": 4.0,
+      "p25": 4.0,
+      "p75": 4.0
+    }
+  },
+  "overall_average_score": 3.852
+}

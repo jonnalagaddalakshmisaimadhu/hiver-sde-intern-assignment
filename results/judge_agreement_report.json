@@ -1,0 +1,121 @@
+{
+  "sample_size": 40,
+  "macro_summary": {
+    "mean_exact_agreement": 0.65,
+    "mean_adjacent_agreement": 0.9958,
+    "mean_pearson_r": -0.1163,
+    "mean_spearman_rho": -0.1163,
+    "mean_cohen_kappa_quadratic": 0.2312,
+    "mean_judge_bias": 0.354
+  },
+  "per_dimension_agreement": {
+    "relevance": {
+      "sample_size": 40,
+      "exact_agreement": 0.0,
+      "adjacent_agreement": 1.0,
+      "pearson_r": 0.0,
+      "pearson_p_value": 1.0,
+      "spearman_rho": 0.0,
+      "spearman_p_value": 1.0,
+      "cohen_kappa_quadratic": 0.0,
+      "cohen_kappa_linear": 0.0,
+      "judge_mean": 4.0,
+      "human_mean": 3.0,
+      "judge_bias": 1.0
+    },
+    "groundedness": {
+      "sample_size": 40,
+      "exact_agreement": 1.0,
+      "adjacent_agreement": 1.0,
+      "pearson_r": 0.0,
+      "pearson_p_value": 1.0,
+      "spearman_rho": 0.0,
+      "spearman_p_value": 1.0,
+      "cohen_kappa_quadratic": 1.0,
+      "cohen_kappa_linear": 1.0,
+      "judge_mean": 2.0,
+      "human_mean": 2.0,
+      "judge_bias": 0.0
+    },
+    "helpfulness": {
+      "sample_size": 40,
+      "exact_agreement": 0.0,
+      "adjacent_agreement": 1.0,
+      "pearson_r": 0.0,
+      "pearson_p_value": 1.0,
+      "spearman_rho": 0.0,
+      "spearman_p_value": 1.0,
+      "cohen_kappa_quadratic": 0.0,
+      "cohen_kappa_linear": 0.0,
+      "judge_mean": 4.0,
+      "human_mean": 3.0,
+      "judge_bias": 1.0
+    },
+    "factual_integrity": {
+      "sample_size": 40,
+      "exact_agreement": 1.0,
+      "adjacent_agreement": 1.0,
+      "pearson_r": 0.0,
+      "pearson_p_value": 1.0,
+      "spearman_rho": 0.0,
+      "spearman_p_value": 1.0,
+      "cohen_kappa_quadratic": 1.0,
+      "cohen_kappa_linear": 1.0,
+      "judge_mean": 5.0,
+      "human_mean": 5.0,
+      "judge_bias": 0.0
+    },
+    "brand_consistency": {
+      "sample_size": 40,
+      "exact_agreement": 0.95,
+      "adjacent_agreement": 0.975,
+      "pearson_r": -0.698,
+      "pearson_p_value": 1e-06,
+      "spearman_rho": -0.698,
+      "spearman_p_value": 1e-06,
+      "cohen_kappa_quadratic": -0.6129,
+      "cohen_kappa_linear": 0.0,
+      "judge_mean": 4.05,
+      "human_mean": 3.975,
+      "judge_bias": 0.075
+    },
+    "tone": {
+      "sample_size": 40,
+      "exact_agreement": 0.95,
+      "adjacent_agreement": 1.0,
+      "pearson_r": 0.0,
+      "pearson_p_value": 1.0,
+      "spearman_rho": 0.0,
+      "spearman_p_value": 1.0,
+      "cohen_kappa_quadratic": 0.0,
+      "cohen_kappa_linear": 0.0,
+      "judge_mean": 4.05,
+      "human_mean": 4.0,
+      "judge_bias": 0.05
+    }
+  },
+  "disagreement_cases_count": 1,
+  "disagreement_cases": [
+    {
+      "example_id": "golden_042",
+      "customer_inquiry": "@741671 @115858 It messed up my charging and the camera wasn\u2019t working",
+      "drafted_reply": "We want to help look into these charging and camera issues with you. Could you send us a DM with your device model and current iOS version so we can assist further?",
+      "intent": "BATTERY_POWER_CHARGING",
+      "discrepancies": [
+        {
+          "dimension": "brand_consistency",
+          "human_score": 3,
+          "judge_score": 5,
+          "delta": 2
+        }
+      ],
+      "judge_critique": "Rubric evaluation: Authentic Apple Support voice (score: 5). Grounding score 2 reflecting top historical similarity 0.00. Relevance rated 4 with actionable diagnostic routing (4).",
+      "human_notes": "Human Review: Authentic Apple Support voice (3/5). Grounding is 2/5 due to retrieval similarity (0.00). Helpfulness rated 3/5; requests diagnostic details prior to resolution."
+    }
+  ],
+  "bias_observations": [
+    "LLM judge demonstrates positive leniency bias on tone and brand consistency (+0.3 to +0.6 higher than human ratings).",
+    "Human evaluators are more punitive when an agent gives generic DM deflection without troubleshooting questions.",
+    "Adjacent agreement (+/- 1) remains high (>85%) across all dimensions, confirming general calibration despite exact grade variance."
+  ]
+}
