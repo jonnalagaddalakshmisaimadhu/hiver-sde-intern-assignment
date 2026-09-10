@@ -132,6 +132,21 @@ This document records the key architectural, methodological, and engineering dec
 * **Why**: Even with `class_weight='balanced'`, conventional n-gram linear models fail on rare classes (<1% of training traffic) that have diverse colloquial phrasing ("shattered my back glass", "dropped it on concrete", "screen bleeding purple"). This empirical finding provides a compelling, defensible justification for why semantic LLM zero/few-shot reasoning is required.
 * **Trade-off**: Transparently exposes that bag-of-words classifiers are unsuitable for safety-critical hardware damage detection.
 
+---
+
+### Decision 19: Evidence-Grounded Generation with Anti-Hallucination Guardrails
+* **Decision**: Require the reply generator to synthesize responses solely from retrieved historical `@AppleSupport` resolutions and prohibit making promises of free hardware replacements, unauthorized policy exceptions, or fake backend actions.
+* **Why**: Customer support agents operating on public social media risk legal and financial liability if they fabricate non-existent policies or guarantee unauthorized refunds. Grounding replies directly in real past resolutions preserves the authentic Apple Support voice while eliminating unsupported factual claims.
+* **Trade-off**: Slightly constrains stylistic creativity in favor of factual consistency and policy adherence.
+
+---
+
+### Decision 20: Dual-Condition Escalation Policy Prioritizing Minimization of False Auto-Handles
+* **Decision**: Design the escalation engine to evaluate both deterministic safety triggers (legal keywords, security compromise, abusive language, physical hardware repair) and empirical evidence signals (retrieval similarity < 0.38, intent confidence < 0.40).
+* **Why**: In customer support, a False Auto-Handle (erroneously handling an account hijacking or physical hardware damage digitally) carries vastly higher real-world cost and risk than a False Escalation (routing an ambiguous technical issue to a human agent). The dual-condition policy minimizes the False Auto-Handle Rate (FAHR) by defaulting to human escalation whenever uncertainty or safety risks arise.
+* **Trade-off**: Results in a moderately higher human escalation volume (~18-20%), but provides a robust safety net against brand reputation damage.
+
+
 
 
 
