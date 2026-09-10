@@ -1,0 +1,16 @@
+{
+  "brand": "AppleSupport",
+  "raw_source_file": "data\\raw\\twcs.csv",
+  "total_apple_outbound_tweets": 106860,
+  "linked_customer_inbound_tweets": 106623,
+  "total_reconstructed_conversations": 103842,
+  "exact_duplicates_filtered": 890,
+  "short_unusable_queries_filtered": 1914,
+  "sample_size": 5000,
+  "sample_random_seed": 42,
+  "execution_time_seconds": 22.68,
+  "output_files": {
+    "full_processed": "data\\processed\\applesupport_conversations.jsonl",
+    "sample_subsample": "data\\sample\\applesupport_sample.jsonl"
+  }
+}

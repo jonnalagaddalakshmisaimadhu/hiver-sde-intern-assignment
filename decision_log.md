@@ -76,4 +76,26 @@ This document records the key architectural, methodological, and engineering dec
   4. *Multi-turn Conversations*: 29.54% of outbound tweets have follow-up turns, supporting conversational context evaluation.
 * **Trade-off**: Requires handling complex technical jargon and iOS/hardware version numbers, but avoids the shallow order-tracking churn dominant in retail datasets.
 
+---
+
+### Decision 11: Two-Pass Conversation Stitching via Parent Pointer Resolution
+* **Decision**: Reconstruct dialogues using a two-pass hash-indexed pipeline: Pass 1 isolates all outbound `@AppleSupport` tweets and collects their `in_response_to_tweet_id` targets; Pass 2 streams the raw data to extract the exact matching customer inbound tweets.
+* **Why**: Avoids loading the entire 2.8M tweet table into an in-memory graph. Successfully reconstructed 103,842 complete dialogues in 22.7 seconds.
+* **Trade-off**: Drops orphan customer tweets that received no brand response (which are useless for grounded retrieval anyway since they lack an authentic resolution).
+
+---
+
+### Decision 12: Natural Text Preservation with Minimal Whitespace Sanitization
+* **Decision**: Restrict text cleaning to whitespace/newline normalization and control character stripping; strictly refrain from aggressive lowercasing, stopword removal, lemmatization, or slang stripping.
+* **Why**: Real customers communicate using casing for emphasis (e.g. "MY PHONE WON'T CHARGE"), punctuation, emojis, and informal Twitter abbreviations. Stripping natural language distorts customer sentiment, destroys urgency signals needed for escalation, and makes retrieval embeddings less representative of production traffic.
+* **Trade-off**: Models and retrievers must handle noisy, informal, and ungrammatical sentences.
+
+---
+
+### Decision 13: Deduplication at the Normalized Inquiry Level
+* **Decision**: Filter exact duplicate customer inquiries (890 dropped) and uninformative fragments (< 3 words or < 10 characters, 1,914 dropped).
+* **Why**: Prevents spam, retweets, and duplicate automated bot mentions from distorting embedding clusters and leaking identical phrases across train and evaluation sets.
+* **Trade-off**: Slightly reduces total corpus size (from 106,623 to 103,842 conversations), but dramatically improves training and evaluation cleanliness.
+
+
 
