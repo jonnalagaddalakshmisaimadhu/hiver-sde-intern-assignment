@@ -1,0 +1,162 @@
+{
+  "accuracy": 0.125,
+  "macro_precision": 0.0156,
+  "macro_recall": 0.125,
+  "macro_f1": 0.0278,
+  "weighted_f1": 0.0278,
+  "total_evaluated": 200,
+  "labels": [
+    "APPLE_ID_ACCOUNT_SECURITY",
+    "APP_STORE_BILLING_SUBSCRIPTIONS",
+    "AUDIO_CONNECTIVITY_BLUETOOTH",
+    "BATTERY_POWER_CHARGING",
+    "DEVICE_PERFORMANCE_CRASH",
+    "HARDWARE_PHYSICAL_DAMAGE",
+    "OTHER_OR_UNCLEAR",
+    "SOFTWARE_UPDATE_OS"
+  ],
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ]
+  ],
+  "per_intent_metrics": {
+    "APPLE_ID_ACCOUNT_SECURITY": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 25
+    },
+    "APP_STORE_BILLING_SUBSCRIPTIONS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 25
+    },
+    "AUDIO_CONNECTIVITY_BLUETOOTH": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 25
+    },
+    "BATTERY_POWER_CHARGING": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 25
+    },
+    "DEVICE_PERFORMANCE_CRASH": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 25
+    },
+    "HARDWARE_PHYSICAL_DAMAGE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 25
+    },
+    "OTHER_OR_UNCLEAR": {
+      "precision": 0.125,
+      "recall": 1.0,
+      "f1_score": 0.2222,
+      "support": 25
+    },
+    "SOFTWARE_UPDATE_OS": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 25
+    }
+  },
+  "model_name": "Baseline 1: Majority Class",
+  "majority_intent": "OTHER_OR_UNCLEAR",
+  "training_distribution": {
+    "APP_STORE_BILLING_SUBSCRIPTIONS": 170,
+    "SOFTWARE_UPDATE_OS": 1324,
+    "AUDIO_CONNECTIVITY_BLUETOOTH": 192,
+    "DEVICE_PERFORMANCE_CRASH": 79,
+    "OTHER_OR_UNCLEAR": 2550,
+    "BATTERY_POWER_CHARGING": 328,
+    "APPLE_ID_ACCOUNT_SECURITY": 156,
+    "HARDWARE_PHYSICAL_DAMAGE": 1
+  }
+}

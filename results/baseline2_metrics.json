@@ -1,0 +1,161 @@
+{
+  "accuracy": 0.705,
+  "macro_precision": 0.7168,
+  "macro_recall": 0.705,
+  "macro_f1": 0.6829,
+  "weighted_f1": 0.6829,
+  "total_evaluated": 200,
+  "labels": [
+    "APPLE_ID_ACCOUNT_SECURITY",
+    "APP_STORE_BILLING_SUBSCRIPTIONS",
+    "AUDIO_CONNECTIVITY_BLUETOOTH",
+    "BATTERY_POWER_CHARGING",
+    "DEVICE_PERFORMANCE_CRASH",
+    "HARDWARE_PHYSICAL_DAMAGE",
+    "OTHER_OR_UNCLEAR",
+    "SOFTWARE_UPDATE_OS"
+  ],
+  "confusion_matrix": [
+    [
+      22,
+      0,
+      0,
+      1,
+      0,
+      0,
+      2,
+      0
+    ],
+    [
+      1,
+      18,
+      1,
+      2,
+      1,
+      0,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      17,
+      0,
+      0,
+      0,
+      7,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      22,
+      0,
+      0,
+      2,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      14,
+      0,
+      11,
+      0
+    ],
+    [
+      3,
+      1,
+      0,
+      0,
+      0,
+      0,
+      20,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      25,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      23
+    ]
+  ],
+  "per_intent_metrics": {
+    "APPLE_ID_ACCOUNT_SECURITY": {
+      "precision": 0.8462,
+      "recall": 0.88,
+      "f1_score": 0.8627,
+      "support": 25
+    },
+    "APP_STORE_BILLING_SUBSCRIPTIONS": {
+      "precision": 0.9474,
+      "recall": 0.72,
+      "f1_score": 0.8182,
+      "support": 25
+    },
+    "AUDIO_CONNECTIVITY_BLUETOOTH": {
+      "precision": 0.9444,
+      "recall": 0.68,
+      "f1_score": 0.7907,
+      "support": 25
+    },
+    "BATTERY_POWER_CHARGING": {
+      "precision": 0.88,
+      "recall": 0.88,
+      "f1_score": 0.88,
+      "support": 25
+    },
+    "DEVICE_PERFORMANCE_CRASH": {
+      "precision": 0.875,
+      "recall": 0.56,
+      "f1_score": 0.6829,
+      "support": 25
+    },
+    "HARDWARE_PHYSICAL_DAMAGE": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "support": 25
+    },
+    "OTHER_OR_UNCLEAR": {
+      "precision": 0.3571,
+      "recall": 1.0,
+      "f1_score": 0.5263,
+      "support": 25
+    },
+    "SOFTWARE_UPDATE_OS": {
+      "precision": 0.8846,
+      "recall": 0.92,
+      "f1_score": 0.902,
+      "support": 25
+    }
+  },
+  "model_name": "Baseline 2: TF-IDF + Logistic Regression",
+  "vocabulary_size": 10000,
+  "hyperparameters": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "max_features": 10000,
+    "class_weight": "balanced",
+    "random_seed": 42
+  }
+}

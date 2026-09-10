@@ -118,6 +118,21 @@ This document records the key architectural, methodological, and engineering dec
 * **Why**: In multi-turn dialogues, customer inquiries and brand responses from the same thread share identical vocabulary and issue specifics. If an evaluation thread is indexed in the retrieval corpus, the agent could simply retrieve its own historical ground-truth reply, creating deceptive, near-perfect test performance through data leakage.
 * **Trade-off**: Slightly reduces the size of the retrieval corpus by 200 dialogues, but ensures 100% trustworthy, uncompromised evaluation.
 
+---
+
+### Decision 17: Establishing Identical-Dataset Baseline Anchors
+* **Decision**: Evaluate both Baseline 1 (Majority Class: `OTHER_OR_UNCLEAR`) and Baseline 2 (TF-IDF + Logistic Regression) on the exact same 200-example Golden Evaluation Set using the identical metric calculation engine (`evaluation/metrics.py`).
+* **Why**: Comparing systems on differing test splits creates deceptive, invalid benchmarks. Evaluating baselines on the same Golden Set yielded Baseline 1: 12.50% Accuracy / 0.0278 Macro-F1, and Baseline 2: 70.50% Accuracy / 0.6829 Macro-F1.
+* **Trade-off**: Requires running baseline evaluation pipelines through the same strict test harnesses as the AI agent.
+
+---
+
+### Decision 18: Documenting Minority-Class Collapse in Conventional ML Baseline
+* **Decision**: Expose and document in the evaluation report that Baseline 2 (TF-IDF + Logistic Regression) suffered total collapse on `HARDWARE_PHYSICAL_DAMAGE` (0.0% precision, 0.0% recall, 0.0 F1-score), misclassifying 80% of cracked-screen inquiries as `OTHER_OR_UNCLEAR`.
+* **Why**: Even with `class_weight='balanced'`, conventional n-gram linear models fail on rare classes (<1% of training traffic) that have diverse colloquial phrasing ("shattered my back glass", "dropped it on concrete", "screen bleeding purple"). This empirical finding provides a compelling, defensible justification for why semantic LLM zero/few-shot reasoning is required.
+* **Trade-off**: Transparently exposes that bag-of-words classifiers are unsuitable for safety-critical hardware damage detection.
+
+
 
 
 
