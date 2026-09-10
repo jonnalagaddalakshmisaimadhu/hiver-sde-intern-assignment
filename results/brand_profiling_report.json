@@ -1,0 +1,70 @@
+{
+  "candidate_brand_profiles": {
+    "AppleSupport": {
+      "total_outbound_sampled": 106860,
+      "replies_to_customer_count": 106719,
+      "reply_ratio_pct": 99.87,
+      "multi_turn_followup_count": 31564,
+      "multi_turn_followup_pct": 29.54,
+      "canned_dm_redirect_pct": 52.47,
+      "informative_content_pct": 47.53,
+      "troubleshooting_keyword_pct": 47.64,
+      "non_english_heuristic_pct": 0.0,
+      "mean_response_char_length": 136.6
+    },
+    "AmazonHelp": {
+      "total_outbound_sampled": 150000,
+      "replies_to_customer_count": 149518,
+      "reply_ratio_pct": 99.68,
+      "multi_turn_followup_count": 75433,
+      "multi_turn_followup_pct": 50.29,
+      "canned_dm_redirect_pct": 0.65,
+      "informative_content_pct": 99.35,
+      "troubleshooting_keyword_pct": 16.48,
+      "non_english_heuristic_pct": 5.65,
+      "mean_response_char_length": 121.1
+    },
+    "SpotifyCares": {
+      "total_outbound_sampled": 43265,
+      "replies_to_customer_count": 43243,
+      "reply_ratio_pct": 99.95,
+      "multi_turn_followup_count": 13786,
+      "multi_turn_followup_pct": 31.86,
+      "canned_dm_redirect_pct": 30.81,
+      "informative_content_pct": 69.19,
+      "troubleshooting_keyword_pct": 40.37,
+      "non_english_heuristic_pct": 0.01,
+      "mean_response_char_length": 129.6
+    },
+    "Uber_Support": {
+      "total_outbound_sampled": 56270,
+      "replies_to_customer_count": 56261,
+      "reply_ratio_pct": 99.98,
+      "multi_turn_followup_count": 18036,
+      "multi_turn_followup_pct": 32.05,
+      "canned_dm_redirect_pct": 36.04,
+      "informative_content_pct": 63.96,
+      "troubleshooting_keyword_pct": 17.03,
+      "non_english_heuristic_pct": 0.0,
+      "mean_response_char_length": 110.1
+    },
+    "Delta": {
+      "total_outbound_sampled": 42253,
+      "replies_to_customer_count": 42197,
+      "reply_ratio_pct": 99.87,
+      "multi_turn_followup_count": 12014,
+      "multi_turn_followup_pct": 28.43,
+      "canned_dm_redirect_pct": 16.45,
+      "informative_content_pct": 83.55,
+      "troubleshooting_keyword_pct": 7.93,
+      "non_english_heuristic_pct": 0.08,
+      "mean_response_char_length": 103.9
+    }
+  },
+  "selection_criteria": {
+    "conversational_volume": "Sufficient volume for clean train/retrieval split and 150-250 Golden Set.",
+    "informative_content": "Lower percentage of pure canned DM redirects; higher percentage of self-contained technical troubleshooting.",
+    "intent_diversity": "Rich variety of diagnostic intents rather than single-issue churn.",
+    "cleanliness": "Predominantly English and consistent support persona."
+  }
+}

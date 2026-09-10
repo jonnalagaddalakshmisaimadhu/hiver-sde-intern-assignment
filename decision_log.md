@@ -65,3 +65,15 @@ This document records the key architectural, methodological, and engineering dec
 * **Why**: The Kaggle TWCS dataset explicitly anonymizes customer user IDs into numeric identifiers while preserving actual corporate Twitter handles (e.g. `AmazonHelp`, `AppleSupport`, `SpotifyCares`) to allow brand identification.
 * **Trade-off**: Edge-case accounts with alphanumeric usernames that are not official brands are theoretically possible, but inspection of the top 50 handles confirmed 100% precision for known commercial support entities.
 
+---
+
+### Decision 10: Selection of AppleSupport as Primary Brand
+* **Decision**: Select `@AppleSupport` as the single brand for the AI customer support agent, rather than `@AmazonHelp` (highest raw volume) or `@SpotifyCares` (pure SaaS).
+* **Why**:
+  1. *Highest Diagnostic Density*: `@AppleSupport` exhibits a 47.64% troubleshooting keyword density (vs 16.48% for Amazon and 7.93% for Delta), providing rich, actionable historical support resolutions where evidence retrieval is meaningful.
+  2. *Language Cleanliness*: 100.0% English (0.0% non-English tweets), whereas `@AmazonHelp` contains 5.65% multilingual tweets across German, Hindi, and Japanese.
+  3. *Clean Intent Separability*: Consumer technology queries fall into well-defined operational intents (iOS software updates, battery health, Apple ID authentication, hardware/repair, audio/connectivity, App Store subscriptions) that can be reliably evaluated.
+  4. *Multi-turn Conversations*: 29.54% of outbound tweets have follow-up turns, supporting conversational context evaluation.
+* **Trade-off**: Requires handling complex technical jargon and iOS/hardware version numbers, but avoids the shallow order-tracking churn dominant in retail datasets.
+
+

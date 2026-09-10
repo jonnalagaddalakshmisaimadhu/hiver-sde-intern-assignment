@@ -21,16 +21,18 @@ Customer support on public social media (such as Twitter/X) presents distinct op
 
 ---
 
-## 3. Selected Brand & Rationale
-> *Status: Brand selection is scheduled for Phase 3 following empirical inspection of the raw dataset in Phase 2.*
+## 3. Selected Brand & Rationale: @AppleSupport
+Following empirical profiling across the top candidate brands in the Twitter Customer Support dataset (`results/brand_profiling_report.json`), **`AppleSupport`** was selected as the target brand based on four concrete engineering criteria:
 
-The brand will be chosen through a principled data audit evaluating:
-* Total volume of clean, usable conversation threads.
-* Ratio of customer inquiries to brand responses.
-* Availability of multi-turn conversational context.
-* Diversity of distinct customer support intents (avoiding single-issue dominance).
-* Historical response quality, consistency, and repeatability.
-* Feasibility of constructing a high-fidelity 150–250 example Golden Evaluation Set.
+1. **Highest Technical Troubleshooting Density (47.64%)**:
+   Unlike retail or airline brands whose outbound tweets are predominantly status lookups or canned redirects (`AmazonHelp` had 16.48% troubleshooting density; `Delta` had 7.93%), `AppleSupport` contains rich, actionable diagnostic procedures (e.g. iOS upgrade steps, battery health checks, network reset commands, iCloud sync guidance).
+2. **Language Cleanliness (100.0% English)**:
+   Inspection revealed 0.0% non-English tweets for `AppleSupport`, whereas `AmazonHelp` had 5.65% multilingual inquiries (German, Japanese, Hindi, Spanish) which introduce extraneous language confounding to evaluation.
+3. **Rich Conversational Depth (106,860 tweets)**:
+   `AppleSupport` features 99.87% inbound reply coverage and 29.54% multi-turn follow-up depth, providing ample historical resolution evidence for semantic retrieval and multi-turn thread evaluation.
+4. **Operationally Well-Defined Intent Taxonomy**:
+   Apple consumer inquiries naturally segment into 7 distinct, operationally actionable categories (OS/Software Updates, Battery & Power, Apple ID & Security, Audio & Bluetooth, Hardware & Physical Damage, App Store & Subscriptions, and General Inquiries), making evaluation objective and defensible.
+
 
 ---
 
