@@ -104,6 +104,21 @@ This document records the key architectural, methodological, and engineering dec
 * **Why**: Each intent directly corresponds to distinct diagnostic trees, Knowledge Base documentation, and escalation paths (e.g., physical damage routes to Genius Bar; account takeover routes to human security). 8 classes provide high semantic separability, minimize annotator ambiguity, and ensure robust per-class sample representation in the Golden Evaluation Set.
 * **Trade-off**: Sub-intents (e.g. differentiating between iPad Wi-Fi vs. iPhone cellular) are aggregated under broader category `AUDIO_CONNECTIVITY_BLUETOOTH`, but the retriever retains full granular retrieval over historical dialogues.
 
+---
+
+### Decision 15: Balanced Stratification across 8 Intents for Golden Evaluation Set
+* **Decision**: Construct the 200-example Golden Evaluation Set with exactly 25 examples per intent, rather than sampling proportional to raw natural frequency.
+* **Why**: In raw Twitter support traffic, minority intents like `HARDWARE_PHYSICAL_DAMAGE` and `APP_STORE_BILLING_SUBSCRIPTIONS` represent <2% of inquiries. Proportional sampling would yield only 2–4 examples for critical safety/escalation intents, rendering per-class F1 calculations statistically meaningless. Uniform stratification ensures equal statistical power (25 instances) across every operational category.
+* **Trade-off**: The test set distribution deviates from the raw prior class distribution, making Macro-F1 the mandatory primary metric rather than raw Accuracy.
+
+---
+
+### Decision 16: Conversation-Level Masking to Guarantee Zero Evaluation Contamination
+* **Decision**: Enforce conversation-level isolation by collecting the 200 Golden Set `conversation_id`s and explicitly masking them out of the historical support retriever, embedding index, and training splits.
+* **Why**: In multi-turn dialogues, customer inquiries and brand responses from the same thread share identical vocabulary and issue specifics. If an evaluation thread is indexed in the retrieval corpus, the agent could simply retrieve its own historical ground-truth reply, creating deceptive, near-perfect test performance through data leakage.
+* **Trade-off**: Slightly reduces the size of the retrieval corpus by 200 dialogues, but ensures 100% trustworthy, uncompromised evaluation.
+
+
 
 
 

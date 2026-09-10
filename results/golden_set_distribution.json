@@ -1,0 +1,24 @@
+{
+  "total_examples": 200,
+  "target_total": 200,
+  "intent_distribution": {
+    "SOFTWARE_UPDATE_OS": 25,
+    "BATTERY_POWER_CHARGING": 25,
+    "APPLE_ID_ACCOUNT_SECURITY": 25,
+    "AUDIO_CONNECTIVITY_BLUETOOTH": 25,
+    "HARDWARE_PHYSICAL_DAMAGE": 25,
+    "APP_STORE_BILLING_SUBSCRIPTIONS": 25,
+    "DEVICE_PERFORMANCE_CRASH": 25,
+    "OTHER_OR_UNCLEAR": 25
+  },
+  "escalation_distribution": {
+    "AUTO_HANDLE": 164,
+    "ESCALATE": 36
+  },
+  "ambiguous_examples_count": 25,
+  "mean_character_length": 126.5,
+  "files": {
+    "jsonl": "golden_set\\golden_evaluation_set.jsonl",
+    "csv": "golden_set\\golden_evaluation_set.csv"
+  }
+}
